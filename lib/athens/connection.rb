@@ -20,19 +20,21 @@ module Athens
 
     # Runs a query against Athena, returning an Athens::Query object
     # that you can use to wait for it to finish or get the results
-    def execute(query, request_token: nil, work_group: nil)
+    def execute(query, request_token: nil, work_group: nil, result_reuse_configuration: nil)
       if @database_name
         resp = @client.start_query_execution(
           query_string: query,
           query_execution_context: context,
           result_configuration: result_config,
           client_request_token: request_token,
-          work_group: work_group
+          work_group: work_group,
+          result_reuse_configuration: result_reuse_configuration,
         )
       else
         resp = @client.start_query_execution(
           query_string: query,
-          result_configuration: result_config
+          result_configuration: result_config,
+          reuse_configuration: reuse_configuration,
         )
       end
 
